@@ -510,7 +510,6 @@ class HomeController extends Controller {
     var resultMidId = new Array();
     var result = new Array()
 
-    const folder = path.join(__dirname, '..', 'csv');
     const gridall = fs.readFileSync(path.join(folder, 'gridall.csv'), 'utf8');
     const gridclip = fs.readFileSync(path.join(folder, 'gridclip.csv'), 'utf8');
     Papa.parse(gridall, {
@@ -608,8 +607,16 @@ class HomeController extends Controller {
       console.log(resultGrid);
       for(var i=0;i<25;i++){
         var gridPile = new Object();
-        gridPile.quick = quickPile[searchClip(resultGrid[i])];
-        gridPile.slow = slowPile[searchClip(resultGrid[i])];
+        var id = searchClip(resultGrid[i]);
+        console.log(id);
+        if(id<0){
+          gridPile.quick = 0;
+          gridPile.slow = 0;
+        }
+        else {
+          gridPile.quick = quickPile[id];
+          gridPile.slow = slowPile[id];
+        }
         result.push(gridPile);
       }
     }
